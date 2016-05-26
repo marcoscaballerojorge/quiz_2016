@@ -157,7 +157,7 @@ exports.edit = function(req, res, next) {
 		res.render('quizzes/show', {quiz: req.quiz, answer: answer, userlist: userlist});
 	}) 
 	.catch(function(error) { next(error);});
- };
+ 
 
 
 // PUT /quizzes/:quizId
