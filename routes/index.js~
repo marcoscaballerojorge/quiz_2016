@@ -91,3 +91,10 @@ router.delete('/users/:userId([0-9]+)/favourites/:quizId(\\d+)', sessionControll
 
 
 module.exports = router;
+
+
+
+
+router.get('/author', function(req, res, next) {
+res.render('author');
+});

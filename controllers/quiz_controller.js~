@@ -54,8 +54,7 @@ exports.index = function(req, res, next) {
         options.where = {AuthorId: req.user.id};
         title = "Mis Preguntas";
     }
-	var aux = (req.query.search !== undefined)? req.query.search : "";
-	Quiz.findAll({where: {question: {$like: "%"+aux+"%"}}})
+	
 
     models.Quiz.count(options)
     .then(function(count) {
@@ -90,8 +89,9 @@ exports.index = function(req, res, next) {
 
         options.offset = pagination.offset;
         options.limit  = pagination.limit;
-
-        return models.Quiz.findAll(options);
+	var aux = (req.query.search !== undefined)? req.query.search : "";
+	
+        return models.Quiz.findAll({where: {question: {$like: "%"+aux+"%"}}});
     })
 	.then(function(quizzes) {
 

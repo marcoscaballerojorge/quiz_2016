@@ -8,14 +8,29 @@ var quizController = require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var userController = require('../controllers/user_controller');
 var sessionController = require('../controllers/session_controller');
-var favouriteController = require('../controllers/favourite_controller');
+
+var path = require("path");
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+	res.render('index');
 });
 
+/* GET author page. */
+router.get("/author", function(req, res, next) {
+	res.render("author");
+});
+
+/* GET license page. */
+router.get("/license", function(req, res, next) {
+	res.sendFile(path.join(__dirname, '..', 'LICENSE.txt'));
+});
+
+/* GET readme page. */
+router.get("/readme", function(req, res, next) {
+	res.sendFile(path.join(__dirname, '..', 'README.md'));
+});
 
 // Autoload de parametros
 router.param('quizId', quizController.load);  // autoload :quizId
@@ -43,14 +58,10 @@ router.put('/users/:userId(\\d+)',      sessionController.loginRequired,
 router.delete('/users/:userId(\\d+)',   sessionController.loginRequired, 
 										sessionController.adminAndNotMyselfRequired, 
 										userController.destroy);  // borrar cuenta
-router.get('/users/:userId(\\d+)/quizzes', sessionController.loginRequired, 
-										   sessionController.adminOrMyselfRequired, 
-										   quizController.index);     // ver las preguntas de un usuario
 
-
-// Definición de rutas de /quizzes
-router.get('/quizzes',                     	quizController.index);
-router.get('/quizzes/:quizId(\\d+)',       	quizController.show);
+// Definición de rutas de quizzes
+router.get('/quizzes.:format?',             quizController.index);
+router.get('/quizzes/:quizId(\\d+).:format?',quizController.show);
 router.get('/quizzes/:quizId(\\d+)/check', 	quizController.check);
 router.get('/quizzes/new',                 	sessionController.loginRequired, 
 											quizController.new);
@@ -78,23 +89,5 @@ router.put('/quizzes/:quizId(\\d+)/comments/:commentId(\\d+)/accept',
 	                                               quizController.ownershipRequired, 
 	                                               commentController.accept);
 
-// Rutas de Favoritos
-router.get('/users/:userId(\\d+)/favourites', favouriteController.index);
-
-router.put('/users/:userId([0-9]+)/favourites/:quizId(\\d+)', sessionController.loginRequired,
-                                                              sessionController.adminOrMyselfRequired,
-                                                              favouriteController.add);
-
-router.delete('/users/:userId([0-9]+)/favourites/:quizId(\\d+)', sessionController.loginRequired,
-                                                                 sessionController.adminOrMyselfRequired,
-                                                                 favouriteController.del);
-
 
 module.exports = router;
-
-
-
-
-router.get('/author', function(req, res, next) {
-res.render('author');
-});
