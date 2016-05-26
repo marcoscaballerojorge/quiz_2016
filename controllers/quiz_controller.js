@@ -147,6 +147,19 @@ exports.edit = function(req, res, next) {
 
 
 
+
+	models.User.findAll()
+	.then(function(users) {
+		var userlist = {};
+		for (var i = 0; i < users.length; i++) {
+    		userlist[users[i].id] = users[i];
+		}
+		res.render('quizzes/show', {quiz: req.quiz, answer: answer, userlist: userlist});
+	}) 
+	.catch(function(error) { next(error);});
+ };
+
+
 // PUT /quizzes/:quizId
 exports.update = function(req, res, next) {
 
