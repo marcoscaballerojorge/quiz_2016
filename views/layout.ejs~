@@ -44,8 +44,6 @@
             <a href="/users/<%=session.user.id%>/favourites">Mis Favoritos </a>
         <% } %>
         <a href="/users">Usuarios</a>
-	<a href="/author">Créditos</a>
-	<a href="https://github.com/marcoscaballerojorge/quiz_2016">Respositorio Github</a>
       </nav>
 
        <section>
